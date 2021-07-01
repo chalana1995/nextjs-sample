@@ -1,7 +1,8 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import ArticleList from '../components/ArticleList';
 
 
-export default function Home() {
+export default function Home({ articles }) {
   return (
     <div>
 
@@ -11,6 +12,24 @@ export default function Home() {
       </Head>
 
       <h1>Wlecome to Next js</h1>
+
+     <ArticleList articles={articles}/>
     </div>
+
   )
+}
+
+export async function getStaticProps() {
+
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=6`);
+  console.log("resss====", res);
+  const articles = await res.json()
+  console.log("articles====", articles);
+
+
+  return {
+    props: {
+      articles
+    }
+  }
 }
